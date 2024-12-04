@@ -1,9 +1,6 @@
-﻿
-using System.Diagnostics;
-
-public static class Day2
+﻿public static class Day2
 {
-    public static void Test()
+    public static void Part1()
     {
         StreamReader sr = new("C:\\Code\\AdventOfCode2024\\AdventOfCode2024\\Day2\\input.txt");
         List<string> reports = [];
@@ -19,8 +16,8 @@ public static class Day2
             reports.Add(line);
         }
 
-        List<int> levels = [];
-        string[] split = [];
+        List<int> levels;
+        string[] split;
         int safe = 0;
 
         for (int i = 0; i < reports.Count; ++i)
@@ -31,19 +28,67 @@ public static class Day2
             {
                 levels.Add(int.Parse(split[j]));
             }
-            if (!CheckIncrease(levels) && !CheckDecrease(levels))
+            if (!CheckIncrease(levels) && !CheckDecrease(levels) || !CheckDiff(levels))
             {
                 continue;
             }
-            if (CheckDiff(levels))
-            {
-                safe++;
-            }
+            safe++;
         }
 
         Console.WriteLine(safe);
+        sr.Dispose();
     }
 
+    public static void Part2()
+    {
+        StreamReader sr = new("C:\\Code\\AdventOfCode2024\\AdventOfCode2024\\Day2\\input.txt");
+        List<string> reports = [];
+        string? line;
+
+        while (!sr.EndOfStream)
+        {
+            line = sr.ReadLine();
+            if (String.IsNullOrEmpty(line))
+            {
+                break;
+            }
+            reports.Add(line);
+        }
+
+        List<int> levels;
+        string[] split;
+        int safe = 0;
+        List<int> diff;
+
+        for (int i = 0; i < reports.Count; ++i)
+        {
+            levels = [];
+            split = reports[i].Split(' ');
+            for (int j = 0; j < split.Length; ++j)
+            {
+                levels.Add(int.Parse(split[j]));
+            }
+            if (!CheckIncrease(levels) && !CheckDecrease(levels) || !CheckDiff(levels))
+            {
+                for (int j = 0; j < levels.Count; ++j)
+                {
+                    diff = [.. levels];
+                    diff.RemoveAt(j);
+                    if (!CheckIncrease(diff) && !CheckDecrease(diff) || !CheckDiff(diff))
+                    {
+                        continue;
+                    }
+                    safe++;
+                    break;
+                }
+                continue;
+            }
+            safe++;
+        }
+
+        Console.WriteLine(safe);
+        sr.Dispose();
+    }
     public static bool CheckIncrease(List<int> levels)
     {
         for (int i = 0; i < levels.Count - 1; ++i)

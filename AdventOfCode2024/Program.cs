@@ -1,1 +1,1 @@
-﻿Day1.Test();
+﻿Day2.Test();

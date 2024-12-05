@@ -31,6 +31,7 @@
             }
         }
         Console.WriteLine(a);
+        sr.Dispose();
     }
 
     public static void Part2()
@@ -64,6 +65,7 @@
             }
         }
         Console.WriteLine(a);
+        sr.Dispose();
     }
 
     public static int Search(char[,] arr, int startRow, int startCol)
